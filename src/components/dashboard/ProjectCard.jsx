@@ -10,23 +10,8 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
-interface ProjectCardProps {
-  project: {
-    id: number;
-    name: string;
-    description: string;
-    progress: number;
-    totalTasks: number;
-    completedTasks: number;
-    dueDate: string;
-    members: Array<{ id: number; name: string; avatar?: string }>;
-    status: "active" | "completed" | "on-hold";
-    color: string;
-  };
-}
-
-const ProjectCard = ({ project }: ProjectCardProps) => {
-  const getStatusColor = (status: string) => {
+const ProjectCard = ({ project, onClick }) => {
+  const getStatusColor = (status) => {
     switch (status) {
       case "active":
         return "bg-success text-success-foreground";
@@ -40,7 +25,10 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
   };
 
   return (
-    <Card className="group hover:scale-[1.02] transition-all duration-300 cursor-pointer overflow-hidden">
+    <Card 
+      className="group hover:scale-[1.02] transition-all duration-300 cursor-pointer overflow-hidden"
+      onClick={onClick}
+    >
       {/* Color accent bar */}
       <div className={`h-1 w-full ${project.color}`} />
       
@@ -61,6 +49,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
                 variant="ghost"
                 size="icon"
                 className="h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity"
+                onClick={(e) => e.stopPropagation()}
               >
                 <MoreHorizontal className="h-4 w-4" />
               </Button>
